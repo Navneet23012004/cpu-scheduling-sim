@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CPU Scheduling Simulator</title>
+    <title>CPU Scheduling Simulation</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -16,126 +16,113 @@
     <header>
         <nav class="navbar navbar-light bg-light">
             <span class="navbar-text">
-                CPU Scheduling Simulator
+                CPU Scheduling Simulation
             </span>
         </nav>
     </header>
     <div class="container">
-        
-        <div class="row mb-5 pt-3" id="main">
-            <div class="col-9 process-list-container">
-                <table class="table table-bordered" id="tblProcessList">
+        <div class="row mb-5 pt-3" id="main-content">
+            <div class="col-9 process-list-section">
+                <table class="table table-bordered" id="processTable">
                     <thead>
                         <tr>
-                            
-                            <th scope="col">Process ID</th>
-                            <th scope="col">Arrival Time</th>
-                            <th scope="col">Burst Time</th>
+                            <th scope="col">PID</th>
+                            <th scope="col">Arrival</th>
+                            <th scope="col">Burst</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        <!-- Dynamic content will be added here -->
                     </tbody>
                 </table>
                 <div class="row">
                     <div class="col">
-                        <input class="form-control mb-2" type="number" min="0" id="processID" placeholder="Process ID" required>
+                        <input class="form-control mb-2" type="number" min="0" id="procID" placeholder="Process ID" required>
                     </div>
                     <div class="col">
-                        <input class="form-control mb-2" type="number" min="0" id="arrivalTime" placeholder="Arrival Time">
+                        <input class="form-control mb-2" type="number" min="0" id="arrTime" placeholder="Arrival Time">
                     </div>
                     <div class="col">
-                        <input class="form-control mb-2" type="number" min="0" id="burstTime" placeholder="Burst Time">
+                        <input class="form-control mb-2" type="number" min="0" id="brstTime" placeholder="Burst Time">
                     </div>
                     <div class="col">
-                        <button class="btn btn-primary" id="btnAddProcess">Add Process</button>
+                        <button class="btn btn-primary" id="addProcBtn">Add Process</button>
                     </div>
                 </div>
             </div>
             <div class="col-3 border border-primary p-3 mb-2">
                 <div class="form">
                     <div class="form-group">
-                        <label for="algorithmSelector">Select Scheduling Method</label>
-                        <select class="form-control" id="algorithmSelector">
-                            <option value="optFCFS">First Come First Served</option>
-                            <option value="optSJF">Shortest Job First</option>
-                            <option value="optSRTF">Shortest Remaining Time First</option>
-                            <option value="optRR">Round Robin</option>
+                        <label for="scheduleAlgo">Select Algorithm</label>
+                        <select class="form-control" id="scheduleAlgo">
+                            <option value="fcfs">First Come First Served</option>
+                            <option value="sjf">Shortest Job First</option>
+                            <option value="srtf">Shortest Remaining Time First</option>
+                            <option value="rr">Round Robin</option>
                         </select>
                     </div>
-                    <div class="form-group form-group-time-quantum">
-                        <label class="mt-1  ">Time Quantum :</label>
-                        <input class="form-control mb-2" type="number" min="0" max="9" id="timeQuantum" >
+                    <div class="form-group quantum-group">
+                        <label class="mt-1">Time Quantum :</label>
+                        <input class="form-control mb-2" type="number" min="0" max="9" id="quantumTime">
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary" id="btnCalculate">Calculate</button>
+                        <button class="btn btn-primary" id="calcBtn">Calculate</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row border-primary">
             <div class="col-md-9">
-                <table class="table table-bordered" id="tblResults">
+                <table class="table table-bordered" id="resultTable">
                     <thead>
                         <tr>
-                            <th scope="col">Process ID</th>
-                            <th scope="col">Arrival Time</th>
-                            <th scope="col">Burst Time</th>
-                            <th scope="col">Completed Time</th>
-                            <th scope="col">Waiting Time</th>
-                            <th scope="col">Turnaround Time</th>
+                            <th scope="col">PID</th>
+                            <th scope="col">Arrival</th>
+                            <th scope="col">Burst</th>
+                            <th scope="col">Completion</th>
+                            <th scope="col">Waiting</th>
+                            <th scope="col">Turnaround</th>
                         </tr>
                     </thead>
                     <tbody> 
+                        <!-- Dynamic content will be added here -->
                     </tbody>
                 </table>
             </div>
             <div class="col-md-3 border border-primary p-3 mb-2">
                 <div class="form">
                     <div class="form-group">
-                        <label for="avgTurnaroundTime">Average Turnaround Time</label>
-                        <input class="form-control" id="avgTurnaroundTime" type="number" placeholder="0" disabled>
+                        <label for="avgTurnaround">Avg Turnaround Time</label>
+                        <input class="form-control" id="avgTurnaround" type="number" placeholder="0" disabled>
                     </div>
                     <div class="form-group">
-                        <label for="avgTurnaroundTime">Average Waiting Time</label>
-                        <input class="form-control" id="avgWaitingTime" type="number" placeholder="0" disabled>
+                        <label for="avgWaiting">Avg Waiting Time</label>
+                        <input class="form-control" id="avgWaiting" type="number" placeholder="0" disabled>
                     </div>
                     <div class="form-group">
-                        <label for="avgTurnaroundTime">Throughput</label>
+                        <label for="throughput">Throughput</label>
                         <input class="form-control" id="throughput" type="number" placeholder="0" disabled>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <footer class="page-footer bg-light p-2 mt-5">
-
-        
-        <div class="footer-copyright text-center py-3">
-           <span>
-               Copyright &copy; Hirusha Cooray | 
-               <a target="_blank" href="https://github.com/hirushacooray/cpu-scheduling-sim">View Source on Github</a>
-           </span>
-        </div>
-    
-    </footer>
+   
     <script>
-        function isFacebookApp() {
-            var ua = navigator.userAgent || navigator.vendor || window.opera;
-            return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1);
+        function isFacebookBrowser() {
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            return (userAgent.indexOf("FBAN") > -1) || (userAgent.indexOf("FBAV") > -1);
         }
 
-        function openInBrowser(target, browserScheme) {
-            var ifc = document.createElement("div");
-            ifc.innerHTML = `<iframe src='${browserScheme}${target}' style='width:0;height:0;border:0; border:none;visibility: hidden;'></iframe>`;
-            document.body.appendChild(ifc);
+        function openInExternalBrowser(targetUrl, browserScheme) {
+            var iframeContainer = document.createElement("div");
+            iframeContainer.innerHTML = `<iframe src='${browserScheme}${targetUrl}' style='width:0;height:0;border:0;visibility:hidden;'></iframe>`;
+            document.body.appendChild(iframeContainer);
         }
-        if(isFacebookApp()){
-            // your action here if user using Facebook in-app browser
-            // alert('Are you using Facebook Browser? To get better experience, try press [...] and Open the blog in Chrome or Safari. Thank you!');
-            openInBrowser(window.location.href, "googlechrome://navigate?url=");
+
+        if(isFacebookBrowser()){
+            openInExternalBrowser(window.location.href, "googlechrome://navigate?url=");
         }
     </script>
-    
 </body>
 </html>
